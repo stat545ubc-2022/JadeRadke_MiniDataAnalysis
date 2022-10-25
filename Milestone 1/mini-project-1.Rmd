@@ -1,0 +1,467 @@
+---
+title: "Mini Data-Analysis Deliverable 1"
+output: github_document
+---
+
+# Welcome to your (maybe) first-ever data analysis project!
+
+And hopefully the first of many. Let's get started:
+
+1.  Install the [`datateachr`](https://github.com/UBC-MDS/datateachr) package by typing the following into your **R terminal**:
+
+<!-- -->
+
+    install.packages("devtools")
+    devtools::install_github("UBC-MDS/datateachr")
+
+2.  Load the packages below.
+
+```{r}
+library(datateachr)
+library(tidyverse)
+```
+
+3.  Make a repository in the <https://github.com/stat545ubc-2022> Organization. You will be working with this repository for the entire data analysis project. You can either make it public, or make it private and add the TA's and Lucy as collaborators. A link to help you create a private repository is available on the #collaborative-project Slack channel. 
+
+# Instructions
+
+## For Both Milestones
+
+-   Each milestone is worth 45 points. The number of points allocated to each task will be annotated within each deliverable. Tasks that are more challenging will often be allocated more points.
+
+-   10 points will be allocated to the reproducibility, cleanliness, and coherence of the overall analysis. While the two milestones will be submitted as independent deliverables, the analysis itself is a continuum - think of it as two chapters to a story. Each chapter, or in this case, portion of your analysis, should be easily followed through by someone unfamiliar with the content. [Here](https://swcarpentry.github.io/r-novice-inflammation/06-best-practices-R/) is a good resource for what constitutes "good code". Learning good coding practices early in your career will save you hassle later on!
+
+## For Milestone 1
+
+**To complete this milestone**, edit [this very `.Rmd` file](https://raw.githubusercontent.com/UBC-STAT/stat545.stat.ubc.ca/master/content/mini-project/mini-project-1.Rmd) directly. Fill in the sections that are tagged with `<!--- start your work below --->`.
+
+**To submit this milestone**, make sure to knit this `.Rmd` file to an `.md` file by changing the YAML output settings from `output: html_document` to `output: github_document`. Commit and push all of your work to the mini-analysis GitHub repository you made earlier, and tag a release on GitHub. Then, submit a link to your tagged release on canvas.
+
+**Points**: This milestone is worth 45 points: 43 for your analysis, 1 point for having your Milestone 1 document knit error-free, and 1 point for tagging your release on Github.
+
+# Learning Objectives
+
+By the end of this milestone, you should:
+
+-   Become familiar with your dataset of choosing
+-   Select 4 questions that you would like to answer with your data
+-   Generate a reproducible and clear report using R Markdown
+-   Become familiar with manipulating and summarizing your data in tibbles using `dplyr`, with a research question in mind.
+
+# Task 1: Choose your favorite dataset (10 points)
+
+The `datateachr` package by Hayley Boyce and Jordan Bourak currently composed of 7 semi-tidy datasets for educational purposes. Here is a brief description of each dataset:
+
+-   *apt_buildings*: Acquired courtesy of The City of Toronto's Open Data Portal. It currently has 3455 rows and 37 columns.
+
+-   *building_permits*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 20680 rows and 14 columns.
+
+-   *cancer_sample*: Acquired courtesy of UCI Machine Learning Repository. It currently has 569 rows and 32 columns.
+
+-   *flow_sample*: Acquired courtesy of The Government of Canada's Historical Hydrometric Database. It currently has 218 rows and 7 columns.
+
+-   *parking_meters*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 10032 rows and 22 columns.
+
+-   *steam_games*: Acquired courtesy of Kaggle. It currently has 40833 rows and 21 columns.
+
+-   *vancouver_trees*: Acquired courtesy of The City of Vancouver's Open Data Portal. It currently has 146611 rows and 20 columns.
+
+**Things to keep in mind**
+
+-   We hope that this project will serve as practice for carrying our your own *independent* data analysis. Remember to comment your code, be explicit about what you are doing, and write notes in this markdown document when you feel that context is required. As you advance in the project, prompts and hints to do this will be diminished - it'll be up to you!
+
+-   Before choosing a dataset, you should always keep in mind **your goal**, or in other ways, *what you wish to achieve with this data*. This mini data-analysis project focuses on *data wrangling*, *tidying*, and *visualization*. In short, it's a way for you to get your feet wet with exploring data on your own.
+
+And that is exactly the first thing that you will do!
+
+1.1 Out of the 7 datasets available in the `datateachr` package, choose **4** that appeal to you based on their description. Write your choices below:
+
+**Note**: We encourage you to use the ones in the `datateachr` package, but if you have a dataset that you'd really like to use, you can include it here. But, please check with a member of the teaching team to see whether the dataset is of appropriate complexity. Also, include a **brief** description of the dataset here to help the teaching team understand your data.
+
+<!-------------------------- Start your work below ---------------------------->
+```{r}
+# 1: cancer_sample
+# 2: flow_sample
+# 3: steam_games
+# 4: vancouver_trees
+```
+
+<!----------------------------------------------------------------------------->
+
+1.2 One way to narrowing down your selection is to *explore* the datasets. Use your knowledge of dplyr to find out at least *3* attributes about each of these datasets (an attribute is something such as number of rows, variables, class type...). The goal here is to have an idea of *what the data looks like*.
+
+*Hint:* This is one of those times when you should think about the cleanliness of your analysis. I added a single code chunk for you below, but do you want to use more than one? Would you like to write more comments outside of the code chunk?
+
+<!-------------------------- Start your work below ---------------------------->
+
+```{r}
+### EXPLORE HERE ###
+steam_games
+glimpse(steam_games)
+dim(steam_games)
+class(steam_games)
+
+cancer_sample
+glimpse(cancer_sample)
+dim(cancer_sample)
+class(cancer_sample)
+
+flow_sample
+glimpse(flow_sample)
+dim(flow_sample)
+class(flow_sample)
+
+vancouver_trees
+glimpse(vancouver_trees)
+dim(vancouver_trees)
+class(vancouver_trees)
+```
+
+<!----------------------------------------------------------------------------->
+
+1.3 Now that you've explored the 4 datasets that you were initially most interested in, let's narrow it down to 2. What lead you to choose these 2? Briefly explain your choices below, and feel free to include any code in your explanation.
+
+<!-------------------------- Start your work below ---------------------------->
+1. vancouver_trees
+
+I chose the vancouver_trees dataset because I understand the variables more clearly than some of the other datasets and I could think of some potential research questions using this data. 
+
+2. steam_games
+
+I chose the steam_games dataset because the content is interesting to me and I could think of some potential research questions using this data as well. 
+<!----------------------------------------------------------------------------->
+
+1.4 Time for the final decision! Going back to the beginning, it's important to have an *end goal* in mind. For example, if I had chosen the `titanic` dataset for my project, I might've wanted to explore the relationship between survival and other variables. Try to think of 1 research question that you would want to answer with each dataset. Note them down below, and make your final choice based on what seems more interesting to you!
+
+<!-------------------------- Start your work below ---------------------------->
+1. vancouver_trees research question: do certain species of trees have larger diameters when the date the tree was planted is taken into account? (i.e., what is the relationship between the species type, the date it was planted, and the diameter of the tree?)
+
+2. steam_games research question: do some developers create more mature content than others, and how does this relate to price of the game? (i.e., what is the relationship between developer, mature content level, and original price?)
+
+I am choosing the steam_games data set for my final decision. The research question I formulated and the dataset in general seems the most interesting to me. 
+
+<!----------------------------------------------------------------------------->
+
+# Important note
+
+Read Tasks 2 and 3 *fully* before starting to complete either of them. Probably also a good point to grab a coffee to get ready for the fun part!
+
+This project is semi-guided, but meant to be *independent*. For this reason, you will complete tasks 2 and 3 below (under the **START HERE** mark) as if you were writing your own exploratory data analysis report, and this guidance never existed! Feel free to add a brief introduction section to your project, format the document with markdown syntax as you deem appropriate, and structure the analysis as you deem appropriate. Remember, marks will be awarded for completion of the 4 tasks, but 10 points of the whole project are allocated to a reproducible and clean analysis. If you feel lost, you can find a sample data analysis [here](https://www.kaggle.com/headsortails/tidy-titarnic) to have a better idea. However, bear in mind that it is **just an example** and you will not be required to have that level of complexity in your project.
+
+# Task 2: Exploring your dataset (15 points)
+
+If we rewind and go back to the learning objectives, you'll see that by the end of this deliverable, you should have formulated *4* research questions about your data that you may want to answer during your project. However, it may be handy to do some more exploration on your dataset of choice before creating these questions - by looking at the data, you may get more ideas. **Before you start this task, read all instructions carefully until you reach START HERE under Task 3**.
+
+2.1 Complete *4 out of the following 8 exercises* to dive deeper into your data. All datasets are different and therefore, not all of these tasks may make sense for your data - which is why you should only answer *4*. Use *dplyr* and *ggplot*.
+
+1.  Plot the distribution of a numeric variable.
+2.  Create a new variable based on other variables in your data (only if it makes sense)
+3.  Investigate how many missing values there are per variable. Can you find a way to plot this?
+4.  Explore the relationship between 2 variables in a plot.
+5.  Filter observations in your data according to your own criteria. Think of what you'd like to explore - again, if this was the `titanic` dataset, I may want to narrow my search down to passengers born in a particular year...
+6.  Use a boxplot to look at the frequency of different observations within a single variable. You can do this for more than one variable if you wish!
+7.  Make a new tibble with a subset of your data, with variables and observations that you are interested in exploring.
+8.  Use a density plot to explore any of your variables (that are suitable for this type of plot).
+
+2.2 For each of the 4 exercises that you complete, provide a *brief explanation* of why you chose that exercise in relation to your data (in other words, why does it make sense to do that?), and sufficient comments for a reader to understand your reasoning and code.
+
+<!-------------------------- Start your work below ---------------------------->
+
+3.
+```{r}
+missing.values <- steam_games %>%
+    gather(key = "key", value = "val") %>%
+    mutate(is.missing = is.na(val)) %>%
+    group_by(key, is.missing) %>%
+    summarise(num.missing = n()) %>%
+    filter(is.missing==T) %>%
+    select(-is.missing) %>%
+    arrange(desc(num.missing)) 
+
+missing.values %>%
+  ggplot() +
+    geom_bar(aes(x=key, y=num.missing), stat = 'identity') +
+    labs(x='variable', y="number of missing values", title='Number of missing values') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+#I chose to investigate how many missing values there are per variable because, during my intial exploration of the dataset, I saw that there were some missing values. However, there are too many rows to manually look at which values are missing. Plotting it also helps me visualize how many from which variables are missing. This will help with my future data analysis to ensure the missing variables do not skew my answers because I can take them into account. 
+```
+
+4.
+```{r}
+steam_games %>%
+  filter(genre %in% c("Action", "Indie")) %>%
+  group_by(genre) %>%
+  summarise(average_original_price = mean(original_price, na.rm=TRUE)) %>%
+  ggplot(aes(genre, average_original_price)) + 
+    geom_col()
+
+#I chose to explore the relationship between two variables in a plot because my dataset contains numeric as well as categorical variables, and I was curious whether the average original price of an Action game is more or less expensive than the average original price of an Indie game. This plot provided me with the answer. It shows that Action games are on average almost twice as expensive as Indie games. 
+```
+
+
+5.
+```{r}
+steam_games %>% 
+  filter(genre %in% c("Action", "Strategy"))
+
+#I chose to filter observations in my data according to my own criteria because this dataset contains a lot of information. Specifically, it contains 21 columns and 40,833 rows. I am interested in looking at the different relationships between different genres, so filtering for the genres that I am interested in (Action and Strategy) helps narrow down the information to only those rows that I am interested in. 
+```
+
+
+7. 
+```{r}
+action_games <- as_tibble(
+  steam_games %>%
+  filter(genre %in% "Action"))
+
+#I chose to make a new tibble with a subset of my data titled "action_games" because I am interested in looking at the relationship between different genres of games and other variables. Action games are a popular category and will likely come up in my data analysis frequently, so storing them as a tibble will make it easier to use in my analysis in the future, because I won't have to constantly filter for action games.
+```
+
+
+<!----------------------------------------------------------------------------->
+
+# Task 3: Write your research questions (5 points)
+
+So far, you have chosen a dataset and gotten familiar with it through exploring the data. Now it's time to figure out 4 research questions that you would like to answer with your data! Write the 4 questions and any additional comments at the end of this deliverable. These questions are not necessarily set in stone - TAs will review them and give you feedback; therefore, you may choose to pursue them as they are for the rest of the project, or make modifications!
+
+<!--- *****START HERE***** --->
+
+1. Are action games more expensive than racing games?
+
+2. How do prices of games vary across different types of games?
+
+3. Which genre of game has the most achievements on average? 
+
+4. Is the language of the game related to it's original price? 
+
+Overall, I am largely interested in how different variables (such as genre, language, type, etc.) affect the price of games. 
+
+<!----------------------------------------------------------------------------->
+
+# Task 4: Process and summarize your data (13 points)
+
+From Task 2, you should have an idea of the basic structure of your dataset (e.g. number of rows and columns, class types, etc.). Here, we will start investigating your data more in-depth using various data manipulation functions.
+
+### 1.1 (10 points)
+
+Now, for each of your four research questions, choose one task from options 1-4 (summarizing), and one other task from 4-8 (graphing). You should have 2 tasks done for each research question (8 total). Make sure it makes sense to do them! (e.g. don't use a numerical variables for a task that needs a categorical variable.). Comment on why each task helps (or doesn't!) answer the corresponding research question.
+
+Ensure that the output of each operation is printed!
+
+**Summarizing:**
+
+1.  Compute the *range*, *mean*, and *two other summary statistics* of **one numerical variable** across the groups of **one categorical variable** from your data.
+2.  Compute the number of observations for at least one of your categorical variables. Do not use the function `table()`!
+3.  Create a categorical variable with 3 or more groups from an existing numerical variable. You can use this new variable in the other tasks! *An example: age in years into "child, teen, adult, senior".*
+4.  Based on two categorical variables, calculate two summary statistics of your choosing.
+
+**Graphing:**
+
+5.  Create a graph out of summarized variables that has at least two geom layers.
+6.  Create a graph of your choosing, make one of the axes logarithmic, and format the axes labels so that they are "pretty" or easier to read.
+7.  Make a graph where it makes sense to customize the alpha transparency.
+8.  Create 3 histograms out of summarized variables, with each histogram having different sized bins. Pick the "best" one and explain why it is the best.
+
+Make sure it's clear what research question you are doing each operation for!
+
+<!------------------------- Start your work below ----------------------------->
+*Are action games more expensive than racing games?*
+
+1.
+```{r}
+mean(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_price_mean = mean(original_price, na.rm = TRUE))
+
+#Calculating the mean of the original price of the games across the genre is helpful for answering my research question because I want to compare the average (aka mean) price of action games compared to the average (aka mean) price of racing games. 
+
+range(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_price_range = range(original_price, na.rm = TRUE))
+
+#Calculating the range of the original price of the games across the genre provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+
+median(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_price_median = median(original_price, na.rm = TRUE))
+
+#Calculating the median of the original price of the games across the genre provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+
+sd(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_price_sd = sd(original_price, na.rm = TRUE))
+
+#Calculating the standard deviation of the original price of the games across the genre provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+
+```
+5.
+```{r}
+steam_games %>%
+group_by(genre) %>%
+  filter(genre %in% c("Action", "Racing")) %>%
+  summarise(average_original_price = mean(original_price, na.rm=TRUE)) %>%
+  ggplot(aes(genre, average_original_price)) + 
+    geom_col() +
+    ylab("Average Original Price ($)") +
+    xlab("Genre of Game")
+
+#Graphing this information directly answers my research question. It allows me to see that, on average, Action games are more expensive than Racing games, although not by much.
+
+```
+
+
+*How do prices of games vary across different types of games?*
+
+2.
+```{r}
+steam_games %>%
+  count(types)
+  
+NROW(steam_games$types)
+
+#Computing the number of observations for the categorical variable "types" provides me with interesting information related to my research question. Looking at the tibble allows me to see the different types of games in my dataset, but it does not tell me anything about price. It is a helpful step in answering my research question, but it does not directly answer my research question.
+```
+5.
+```{r}
+steam_games %>%
+group_by(types) %>%
+  filter(!is.na(types)) %>%
+  summarise(average_original_price = mean(original_price, na.rm=TRUE)) %>%
+  ggplot(aes(types, average_original_price)) + 
+    geom_col() +
+    ylab("Average Original Price") +
+    xlab("Type of Game")
+
+#Graphing this information directly answers my research question. It allows me to see that, on average, apps are the most expensive type of game, followed by bundles as the second most expensive, followed by subs as the cheapest. 
+```
+
+
+*Which genre of game has the most achievements on average?*
+
+1.
+```{r}
+mean(steam_games$achievements,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_achievements_mean = mean(achievements, na.rm = TRUE))
+
+#Calculating the mean achievements across genres is helpful for answering my research question because I want to figure out which genres have the most achievements on average. Calculating the average achievement per genre is an important step towards answering my research question.
+
+range(steam_games$achievements,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_achievements_range = range(achievements, na.rm = TRUE))
+
+#Calculating the range of the achievements across genres provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+
+median(steam_games$achievements,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_achievements_median = median(achievements, na.rm = TRUE))
+
+#Calculating the median of the achievements across genres provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+
+sd(steam_games$achievements,na.rm=TRUE)
+
+steam_games %>%
+  group_by(genre) %>%
+  summarise(genre_achievements_sd = sd(original_price, na.rm = TRUE))
+
+#Calculating the standard deviation of the achievements across genres provides me with interesting information related to my research question, but it does not directly help me answer my research question. 
+```
+
+5.
+```{r}
+steam_games %>%
+group_by(genre) %>%
+  filter(genre %in% c("Action", "Racing", "Indie", "Strategy", "Adventure", "RPG", "Simulation")) %>%
+  summarise(average_achievements = mean(achievements, na.rm=TRUE)) %>%
+  ggplot(aes(genre, average_achievements)) + 
+    geom_col() +
+    ylab("Average Achievements") +
+    xlab("Genre")
+
+#Graphing this information directly answers my research question. It allows me to see that, on average, RPG (role playing games) have the most achievements.
+```
+
+
+*Is the language of the game related to it's original price?*
+
+1.
+```{r}
+mean(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(languages) %>%
+  summarise(languages_price_mean = mean(original_price, na.rm = TRUE))
+
+#Calculating the mean original price across languages is helpful for answering my research question because I want to figure out how the language of a game is related to it's price. Calculating the average price per language is an important step towards answering my research question.
+
+range(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(languages) %>%
+  summarise(languages_price_range = range(original_price, na.rm = TRUE))
+
+#Calculating the range of original price across languages is potentially helpful for answering my research question because I want to figure out how the language of a game is related to it's price. Calculating the range of original price per language could be helpful in answering my research question. 
+
+median(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(languages) %>%
+  summarise(languages_price_median = median(original_price, na.rm = TRUE))
+
+#Calculating the median of original price across languages is potentially helpful for answering my research question because I want to figure out how the language of a game is related to it's price. Calculating the median of original price per language could be helpful in answering my research question. 
+
+sd(steam_games$original_price,na.rm=TRUE)
+
+steam_games %>%
+  group_by(languages) %>%
+  summarise(languages_price_sd = sd(original_price, na.rm = TRUE))
+
+#Calculating the standard deviation of original price across languages is potentially helpful for answering my research question because I want to figure out how the language of a game is related to it's price. Calculating the standard deviation of original price per language could be helpful in answering my research question. 
+
+```
+
+5.
+```{r}
+steam_games %>%
+group_by(languages) %>%
+  filter(languages %in% c("English", "English,Russian", "English,Korean", "English,French", "English,German")) %>%
+  summarise(average_original_price = mean(original_price, na.rm=TRUE)) %>%
+  ggplot(aes(languages, average_original_price)) + 
+    geom_col() +
+    ylab("Average Original Price") +
+    xlab("Languages of Game")
+
+#Graphing this information helps partially answer my research question. It allows me to see that, on average, games that are released in English only are the most expensive, whereas games that are released in English and another language (e.g. English and French, English and German) are much cheaper on average in comparison. I could explore other aspects of this relationship further.
+```
+
+
+<!----------------------------------------------------------------------------->
+
+### 1.2 (3 points)
+
+Based on the operations that you've completed, how much closer are you to answering your research questions? Think about what aspects of your research questions remain unclear. Can your research questions be refined, now that you've investigated your data a bit more? Which research questions are yielding interesting results?
+
+<!-------------------------- Start your work below ---------------------------->
+
+Based on the operations that I completed, I have mostly answered all of my research questions. I think, now that I have investigated my data a bit more, my research questions could be expanded to include more variables and more complex relationships. I think all of my research questions have provided interesting results, but I was personally the most interested in the results to the research question "Which genre of game has the most achievements on average?" Logically, I would have assumed Action or Adventure games to have the most achievements. I was surprised to learn that, on average, role playing games have the most achievements, and Adventure games actually have the least amount of achievements! I am excited to continue exploring this dataset. 
+
+<!----------------------------------------------------------------------------->
+
+### Attribution
+
+Thanks to Icíar Fernández Boyano for mostly putting this together, and Vincenzo Coia for launching.
