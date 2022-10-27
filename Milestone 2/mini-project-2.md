@@ -735,7 +735,7 @@ genre_achievements_csv <- steam_games %>%
   group_by(genre) %>%
   summarise(genre_achievements_mean = mean(achievements, na.rm = TRUE))
 
-write_csv(genre_achievements_csv, "/Users/jader/Desktop/Test/MiniDataAnalysis_Jade_Radke/output/genre_achievements.csv")
+write_csv(genre_achievements_csv, here::here("output", "genre_achievements.csv"))
 ```
 
 <!----------------------------------------------------------------------------->
@@ -751,9 +751,9 @@ Use the functions `saveRDS()` and `readRDS()`.
 <!-------------------------- Start your work below ---------------------------->
 
 ``` r
-saveRDS(model, file = "/Users/jader/Desktop/Test/MiniDataAnalysis_Jade_Radke/output/model.rds")
+saveRDS(model, here::here("output", "model.rds"))
 
-rdsmodel <- readRDS("/Users/jader/Desktop/Test/MiniDataAnalysis_Jade_Radke/output/model.rds")
+rdsmodel <- readRDS(here::here("output", "model.rds"))
 rdsmodel
 ```
 
